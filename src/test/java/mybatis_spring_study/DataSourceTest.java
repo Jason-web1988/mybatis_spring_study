@@ -29,7 +29,7 @@ public class DataSourceTest {
 	
 	@After
 	public void tearDow() throws Exception{
-		System.out.println();;
+		System.out.println();
 	}
 
 	@Test
