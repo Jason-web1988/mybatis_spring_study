@@ -8,14 +8,18 @@ import javax.sql.DataSource;
 import org.apache.ibatis.io.Resources;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
+//@EnableTransactionManagement AOP사용할때는 주석
 public class ContextDataSource {
 
-	@Bean
+	@Bean(destroyMethod = "close")
 	public DataSource dataSource() {
 		HikariDataSource dataSource = null;
 		try {
@@ -29,6 +33,10 @@ public class ContextDataSource {
 			e.printStackTrace();
 		}
 		return dataSource;
-		
+	}
+	
+	@Bean
+	public PlatformTransactionManager transactionManger() {
+		return new DataSourceTransactionManager(dataSource());
 	}
 }
